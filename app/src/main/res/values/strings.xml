@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">My Island</string>
+    <string name="accessibility_service_description">Used to draw the Dynamic Island over other apps and handle touch events.</string>
+</resources>
