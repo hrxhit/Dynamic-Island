@@ -19,9 +19,14 @@ import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.myisland.ui.theme.MyIslandTheme
 import com.example.myisland.ui.expanded.IslandPillView
+import com.example.myisland.repository.NotificationRepository
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class IslandOverlayService : AccessibilityService(), LifecycleOwner, SavedStateRegistryOwner {
+
+    @Inject
+    lateinit var notificationRepository: NotificationRepository
 
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
@@ -62,7 +67,7 @@ class IslandOverlayService : AccessibilityService(), LifecycleOwner, SavedStateR
             setViewTreeSavedStateRegistryOwner(this@IslandOverlayService)
             setContent {
                 MyIslandTheme {
-                    IslandPillView()
+                    IslandPillView(notificationRepository = notificationRepository)
                 }
             }
         }
@@ -70,9 +75,7 @@ class IslandOverlayService : AccessibilityService(), LifecycleOwner, SavedStateR
         windowManager.addView(composeView, params)
     }
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Not used, we just need the overlay capability
-    }
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
 
     override fun onInterrupt() {}
 
